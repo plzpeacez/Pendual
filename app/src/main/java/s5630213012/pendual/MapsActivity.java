@@ -47,16 +47,17 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
     private double lat;
     private double lon;
     private LocationManager locationManager;
-    private final String NAMESPACE = "http://192.168.43.166/nusoap/WebServiceServer.php";
-    private final String URL = "http://192.168.43.166/nusoap/WebServiceServer.php?wsdl"; // WSDL URL
-    private final String SOAP_ACTION = "http://192.168.43.92/nusoap/WebServiceServer.php/HelloWorld";
-    private final String METHOD_NAME = "HelloWorld"; // Method on web service
-    private final String xSOAP_ACTION = "http://192.168.43.166/nusoap/WebServiceServer.php/HiHi";
-    private final String xMETHOD_NAME = "HiHi"; // Method on web service
+    //private final String NAMESPACE = "http://192.168.43.166/nusoap/WebServiceServer.php";
+    //private final String URL = "http://192.168.43.166/nusoap/WebServiceServer.php?wsdl"; // WSDL URL
+    //private final String SOAP_ACTION = "http://192.168.43.92/nusoap/WebServiceServer.php/HelloWorld";
+    //private final String METHOD_NAME = "HelloWorld"; // Method on web service
+    //private final String xSOAP_ACTION = "http://192.168.43.166/nusoap/WebServiceServer.php/HiHi";
+    //private final String xMETHOD_NAME = "HiHi"; // Method on web service
 
     LatLng gu;
     LatLng latLng;
     MarkerOptions markerOptions;
+    WebService ws;
 
     @SuppressLint("NewApi")
     @Override
@@ -141,6 +142,9 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+
+        ws = new WebService();
+
     }
 
     @Override
@@ -1135,6 +1139,7 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
                         Toast.LENGTH_LONG).show();
                 break;
             case 2:
+                ws.callService();
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                 mMap.clear();
                 //************* 1 ***************//
@@ -2106,7 +2111,10 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
                 //new ServiceTask().execute();
                 break;
             case 5:
-                new ServiceTask().execute();
+                //new ServiceTask().execute();
+                MarkerOptions marker3 = new MarkerOptions().position(new LatLng(ws.getLatitude(), ws.getLongitude())).title(ws.getToolTip());
+                marker3.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
+                mMap.addMarker(marker3);
                 break;
         }
     }
@@ -2116,6 +2124,7 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
     }
 
+    /*
     //*****service background
     private class ServiceTask extends AsyncTask<Void, Void, SoapObject>{
 
@@ -2136,19 +2145,7 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
                 androidHttpTransport.call(xSOAP_ACTION, envelope);
                 result = (SoapObject) envelope.bodyIn;
-                /*
-                if (result != null) {
-                    String[] latlng = result.getProperty(0).toString().split(",");
-                    //txtResult.setText(latlng[0].toString() + "     d" + Double.parseDouble(latlng[1].toString()));
-                    //mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1]))).title("BUZZ"));
-                    Toast.makeText(getApplicationContext(), "Latitude " + latlng[0].toString() + "  Longtitude " + latlng[1].toString(),
-                                    Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Web Service not Response!", Toast.LENGTH_LONG)
-                            .show();
-                }
-                */
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -2185,6 +2182,7 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
             }
         }
     }
+    */
     //*** An AsyncTask Background Process
     private class GeocoderTask extends AsyncTask<String, Void, List<Address>> {
 
