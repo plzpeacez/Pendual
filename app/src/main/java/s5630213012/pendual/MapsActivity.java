@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,10 +28,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -47,17 +52,13 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
     private double lat;
     private double lon;
     private LocationManager locationManager;
-    //private final String NAMESPACE = "http://192.168.43.166/nusoap/WebServiceServer.php";
-    //private final String URL = "http://192.168.43.166/nusoap/WebServiceServer.php?wsdl"; // WSDL URL
-    //private final String SOAP_ACTION = "http://192.168.43.92/nusoap/WebServiceServer.php/HelloWorld";
-    //private final String METHOD_NAME = "HelloWorld"; // Method on web service
-    //private final String xSOAP_ACTION = "http://192.168.43.166/nusoap/WebServiceServer.php/HiHi";
-    //private final String xMETHOD_NAME = "HiHi"; // Method on web service
 
+    String json;
     LatLng gu;
     LatLng latLng;
     MarkerOptions markerOptions;
     WebService ws;
+    BusLocation bus;
 
     @SuppressLint("NewApi")
     @Override
@@ -144,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
         spinner.setAdapter(dataAdapter);
 
         ws = new WebService();
-
+        bus = new BusLocation();
     }
 
     @Override
@@ -153,21 +154,6 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
         setUpMapIfNeeded();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -181,12 +167,6 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
     private void setUpMap() {
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         //LatLng psu = new LatLng(7.894919, 98.351722);
@@ -1139,7 +1119,8 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
                         Toast.LENGTH_LONG).show();
                 break;
             case 2:
-                ws.callService();
+                //ws.callService();
+                bus.callServ();
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                 mMap.clear();
                 //************* 1 ***************//
@@ -2108,13 +2089,14 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
                 mMap.addMarker(new MarkerOptions().position(new LatLng(7.885237, 98.411373)).title("Marker"));
                 mMap.addMarker(new MarkerOptions().position(new LatLng(7.884131, 98.426926)).title("Marker"));
                 mMap.addMarker(new MarkerOptions().position(new LatLng(7.870947, 98.432618)).title("Marker"));
-                //new ServiceTask().execute();
                 break;
             case 5:
-                //new ServiceTask().execute();
-                MarkerOptions marker3 = new MarkerOptions().position(new LatLng(ws.getLatitude(), ws.getLongitude())).title(ws.getToolTip());
-                marker3.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
-                mMap.addMarker(marker3);
+                //MarkerOptions marker3 = new MarkerOptions().position(new LatLng(ws.getLatitude(), ws.getLongitude())).title(ws.getToolTip());
+                json = bus.getData();
+                Cadenza(json);
+                //MarkerOptions marker3 = new MarkerOptions().position(bus.getData());
+                //marker3.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
+                //mMap.addMarker(marker3);
                 break;
         }
     }
@@ -2124,65 +2106,6 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
     }
 
-    /*
-    //*****service background
-    private class ServiceTask extends AsyncTask<Void, Void, SoapObject>{
-
-        SoapObject result;
-        @Override
-        protected SoapObject doInBackground(Void... params) {
-            SoapObject request = new SoapObject(NAMESPACE, xMETHOD_NAME);
-            request.addProperty("name", "");
-
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
-
-            envelope.setOutputSoapObject(request);
-
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
-
-            try {
-
-                androidHttpTransport.call(xSOAP_ACTION, envelope);
-                result = (SoapObject) envelope.bodyIn;
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (XmlPullParserException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(SoapObject result) {
-            try {
-
-                if (result != null) {
-                    String[] latlng = result.getProperty(0).toString().split(",");
-                    //txtResult.setText(latlng[0].toString() + "     d" + Double.parseDouble(latlng[1].toString()));
-                    //mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1]))).title("BUZZ"));
-                    Toast.makeText(getApplicationContext(), "Latitude " + latlng[0].toString() + "  Longtitude " + latlng[1].toString(),
-                            Toast.LENGTH_LONG).show();
-                    //*** Marker
-                    String toolTip = "Latitude " + latlng[0].toString() + "  Longtitude " + latlng[1].toString();
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0].toString()), Double.parseDouble(latlng[1].toString()))).title(toolTip);
-                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
-                    mMap.addMarker(marker);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Web Service not Response!", Toast.LENGTH_LONG)
-                            .show();
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-    */
     //*** An AsyncTask Background Process
     private class GeocoderTask extends AsyncTask<String, Void, List<Address>> {
 
@@ -2235,6 +2158,42 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 }
             }
+        }
+    }
+
+    private void Cadenza (String json) {
+
+        try {
+            // De-serialize the JSON string into an array of city objects
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+                String[] latl = jsonObj.getString("position").toString().split(",");
+                LatLng latLng = new LatLng(Double.parseDouble(latl[0].toString()),
+                        Double.parseDouble(latl[1].toString()));
+
+                //move CameraPosition on first result
+                if (i == 0) {
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(latLng).zoom(13).build();
+
+                    mMap.animateCamera(CameraUpdateFactory
+                            .newCameraPosition(cameraPosition));
+                }
+
+                // Create a marker for each city in the JSON data.
+                mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car5))
+                        .title(jsonObj.getString("latlngID"))
+                                //.snippet(Integer.toString(jsonObj.getInt("population")))
+                        .position(latLng));
+                //MarkerOptions marker3 = new MarkerOptions().position(latLng);
+                //marker3.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
+                //mMap.addMarker(marker3);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
