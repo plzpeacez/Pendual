@@ -132,10 +132,10 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
         categories.add("Select Your Target");
-        categories.add("Mylocation");
-        categories.add("Route 1");
-        categories.add("Route 2");
-        categories.add("Route 3");
+        categories.add("ตำแหน่งปัจจุบัน");
+        categories.add("สาย 1");
+        categories.add("สาย 2");
+        categories.add("สาย 3");
         //categories.add("test");
 
         // Creating adapter for spinner
@@ -260,6 +260,11 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
                 mMap.addPolyline(pos.getRectLine01());
                 addMarker1();
+                CameraPosition cameraPosition1 = new CameraPosition.Builder()
+                        .target(new LatLng(7.890470, 98.389951)).zoom(13).build();
+
+                mMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(cameraPosition1));
                 break;
             case 3:
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
@@ -267,24 +272,29 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
                 //************** 2 ***************//
                 mMap.addPolyline(pos.getRectLine02());
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.921122, 98.395734)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.927096, 98.395491)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.913441, 98.393301)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.907697, 98.391021)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.899765, 98.388914)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.891908, 98.389219)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.889516, 98.386817)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.890907, 98.391171)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.890054, 98.397753)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.883343, 98.393613)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.880042, 98.395478)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.877530, 98.395420)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.878866, 98.385421)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.880441, 98.378365)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.880916, 98.368737)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.870214, 98.359144)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.861417, 98.353152)).title("Marker"));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(7.857987, 98.362925)).title("Marker"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.921122, 98.395734)).title("ซุปเปอร์ชีป"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.927096, 98.395491)).title("แยกราชภัฏ"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.913441, 98.393301)).title("ภูเก็ตวิทยาลัย"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.907697, 98.391021)).title("แยกอำเภอ"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.899765, 98.388914)).title("แยกสตรี"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.891908, 98.389219)).title("ศาลากลาง"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.889516, 98.386817)).title("บขส"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.890907, 98.391171)).title("เอ็กโป"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.890054, 98.397753)).title("ตลาดเกษตร"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.883343, 98.393613)).title("แยกบางเหนียว"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.880042, 98.395478)).title("รร.เทศบาลเมือง"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.877530, 98.395420)).title("แหลมชั่น"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.878866, 98.385421)).title("เทศบาลวิชิต"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.880441, 98.378365)).title("ตลาดสี่มุมเมือง"));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.880916, 98.368737)).title(""));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.870214, 98.359144)).title(""));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.861417, 98.353152)).title(""));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(7.857987, 98.362925)).title(""));
+                CameraPosition cameraPosition2 = new CameraPosition.Builder()
+                        .target(new LatLng(7.890470, 98.389951)).zoom(13).build();
+
+                mMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(cameraPosition2));
                 break;
             case 4:
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
@@ -293,6 +303,11 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
 
                 mMap.addPolyline(pos.getRectLine03());
                 addMarker3();
+                CameraPosition cameraPosition3 = new CameraPosition.Builder()
+                        .target(new LatLng(7.885313, 98.413310)).zoom(13).build();
+
+                mMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(cameraPosition3));
                 break;
             case 5:
                 //MarkerOptions marker3 = new MarkerOptions().position(new LatLng(ws.getLatitude(), ws.getLongitude())).title(ws.getToolTip());
@@ -306,39 +321,39 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
     }
 
     private void addMarker3() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.866532, 98.392749)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.870661, 98.390715)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.879085, 98.385419)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883138, 98.387520)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.887053, 98.387697)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.890897, 98.391148)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.885744, 98.393161)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883350, 98.393670)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.882823, 98.399380)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.885237, 98.411373)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.884131, 98.426926)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.870947, 98.432618)).title("Marker"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.866532, 98.392749)).title("วงเวียนสะพานหิน"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.870661, 98.390715)).title("สะพานคลองบางใหญ่"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.879085, 98.385419)).title("รร.เฉลิมพระเกียรติ"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883138, 98.387520)).title("สนง.ขนส่งภูเก็ต"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.887053, 98.387697)).title("รร.เทศบาลเมืองภูเก็ต"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.890897, 98.391148)).title("วงเวียนสุริยเดช"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.885744, 98.393161)).title("รร.พุทธมงคลนิมิตร"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883350, 98.393670)).title("รร.สตรีภูเก็ต"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.882823, 98.399380)).title("ไปรษณีย์"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.885237, 98.411373)).title("สถานีขนส่ง"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.884131, 98.426926)).title("รพ.อบจ.ภูเก็ต"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.870947, 98.432618)).title("ท่าเทียบเรือ"));
     }
 
     private void addMarker1() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.896844, 98.368431)).title("Big C Supermarket"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.906094, 98.369024)).title("Tesco Lotus Phuket"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.898514, 98.383368)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.890437, 98.389899)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.889291, 98.386203)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.881771, 98.383985)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883005, 98.387231)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883353, 98.393679)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.880165, 98.392313)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.878115, 98.393096)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.874051, 98.393885)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.871419, 98.393953)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.868661, 98.395767)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.863928, 98.400856)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.862845, 98.401488)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.863010, 98.398790)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.866506, 98.392760)).title("Marker"));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(7.869540, 98.392430)).title("Marker"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.896844, 98.368431)).title("บิ๊กซี"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.906094, 98.369024)).title("โลตัส"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.898514, 98.383368)).title("รพ.วชิระ"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.890437, 98.389899)).title("แยกสตรี"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.889291, 98.386203)).title("แยกอำเภอ"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.881771, 98.383985)).title("แยกไทหัว"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883005, 98.387231)).title("แยกจุ้ยตุ่ย"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.883353, 98.393679)).title("ซอยภูธร"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.880165, 98.392313)).title("วงเวียนน้ำพุ"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.878115, 98.393096)).title("บขส"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.874051, 98.393885)).title("วงเวียนหอนาฬิกา"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.871419, 98.393953)).title("แยกบางเหนียว"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.868661, 98.395767)).title("สะพานหิน"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.863928, 98.400856)).title("รร.เฉลิมพระเกียรติ"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.862845, 98.401488)).title("วิทยาลัยอาชีวศึกษาภูเก็ต"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.863010, 98.398790)).title(""));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.866506, 98.392760)).title(""));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(7.869540, 98.392430)).title(""));
     }
 
     @Override
@@ -421,7 +436,7 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
                     new MarkerTask().execute(bus.getData());
                     //bus.callServ();
                 }
-            }, 0, 60000);
+            }, 0, 10000);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -478,35 +493,39 @@ public class MapsActivity extends FragmentActivity implements AdapterView.OnItem
         protected void onPostExecute(String jsonx) {
             try {
                 // De-serialize the JSON string into an array of city objects
-                mMap.clear();
-                mMap.addPolyline(pos.getRectLine01());
-                addMarker1();
-                JSONArray jsonArray = new JSONArray(bus.getData());
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                if(bus.getData()!=null) {
+                    mMap.clear();
+                    mMap.addPolyline(pos.getRectLine01());
+                    addMarker1();
+                    JSONArray jsonArray = new JSONArray(bus.getData());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                    String[] latl = jsonObj.getString("position").toString().split(",");
-                    LatLng latLng = new LatLng(Double.parseDouble(latl[0].toString()),
-                            Double.parseDouble(latl[1].toString()));
+                        String[] latl = jsonObj.getString("position").toString().split(",");
+                        LatLng latLng = new LatLng(Double.parseDouble(latl[0].toString()),
+                                Double.parseDouble(latl[1].toString()));
 
-                    //move CameraPosition on first result
-                    if (i == 99) {
-                        CameraPosition cameraPosition = new CameraPosition.Builder()
-                                .target(latLng).zoom(13).build();
+                        //move CameraPosition on first result
+                        if (i == 99) {
+                            CameraPosition cameraPosition = new CameraPosition.Builder()
+                                    .target(latLng).zoom(13).build();
 
-                        mMap.animateCamera(CameraUpdateFactory
-                                .newCameraPosition(cameraPosition));
+                            mMap.animateCamera(CameraUpdateFactory
+                                    .newCameraPosition(cameraPosition));
+                        }
+
+                        // Create a marker for each city in the JSON data.
+                        mMap.addMarker(new MarkerOptions()
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.car5))
+                                .title(jsonObj.getString("latlngID"))
+                                        //.snippet(Integer.toString(jsonObj.getInt("population")))
+                                .position(latLng));
+                        //MarkerOptions marker3 = new MarkerOptions().position(latLng);
+                        //marker3.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
+                        //mMap.addMarker(marker3);
                     }
+                }else{
 
-                    // Create a marker for each city in the JSON data.
-                    mMap.addMarker(new MarkerOptions()
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.car5))
-                            .title(jsonObj.getString("latlngID"))
-                                    //.snippet(Integer.toString(jsonObj.getInt("population")))
-                            .position(latLng));
-                    //MarkerOptions marker3 = new MarkerOptions().position(latLng);
-                    //marker3.icon(BitmapDescriptorFactory.fromResource(R.drawable.car5));
-                    //mMap.addMarker(marker3);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

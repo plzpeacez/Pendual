@@ -41,7 +41,7 @@ public class BusLocation {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             //sdf.format(cal.getTime())
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("strCountry", "01:11");
+            request.addProperty("strCountry", sdf.format(cal.getTime()));
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
