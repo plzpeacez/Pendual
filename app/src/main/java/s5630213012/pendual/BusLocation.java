@@ -22,7 +22,7 @@ public class BusLocation {
     private final String URL = "http://192.168.43.92/nusoap/test2.php?wsdl"; // WSDL URL
     private final String SOAP_ACTION = "http://192.168.43.92/nusoap/test2.php/Cadenza";
     private final String METHOD_NAME = "Cadenza"; // Method on web service
-    private String data;
+    private String data = null;
 
     public void callServ() {
         new ServiceTask().execute();
@@ -39,8 +39,9 @@ public class BusLocation {
         protected SoapObject doInBackground(Void... params) {
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            //sdf.format(cal.getTime())
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("strCountry", "01:10");
+            request.addProperty("strCountry", "01:11");
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
